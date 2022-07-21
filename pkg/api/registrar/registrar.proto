@@ -30,6 +30,7 @@ message RegisterWorkloadRequest {
     WorkloadType WorkloadType = 2;
     SelectorList Selectors = 3;
     string NodeGroup = 4;
+    string WorkloadName = 5;
 }
 
 message RegisterResponse {
