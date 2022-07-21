@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package registrar;
+
+option go_package = "gitlab.com/testifysec/judge-platform/registrar/pkg/api/registrar";
+
+import "google/protobuf/empty.proto";
+
+enum NodeType {
+  TPM = 0;
+  GCP = 1;
+  AWS = 2;
+  AZURE = 3;
+}
+
+enum WorkloadType {
+  OCI = 0;
+  BIN = 1;
+}
+
+message RegisterNodeRequest {
+  string JWT = 1;
+  NodeType NodeType = 2;
+  SelectorList Selectors = 3;
+  string NodeGroup = 4;
+}
+
+message RegisterWorkloadRequest {
+    string JWT = 1;
+    WorkloadType WorkloadType = 2;
+    SelectorList Selectors = 3;
+    string NodeGroup = 4;
+}
+
+message RegisterResponse {
+  string spiffeID = 1;
+}
+
+
+message GetAccountRequest {
+  SelectorList Selectors = 1;
+  NodeType NodeType = 2;
+}
+
+message GetAccountResponse {
+  string Account = 1;
+  string NodeGroup = 2;
+}
+
+message Selector {
+    string key = 1;
+    string value = 2;
+}
+
+message SelectorList {
+    repeated Selector Selectors = 1;
+}
+
+service Registrar {
+  rpc RegisterNode(RegisterNodeRequest) returns (RegisterResponse);
+  rpc RegisterWorkload(RegisterWorkloadRequest) returns (RegisterResponse);
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse);
+}
+
+
+
