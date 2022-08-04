@@ -4,7 +4,7 @@ package registrar;
 
 option go_package = "github.com/testifysec/registrar-api/pkg/api/registrar";
 
-import "google/protobuf/empty.proto";
+import "google/api/annotations.proto";
 
 enum NodeType {
   TPM = 0;
