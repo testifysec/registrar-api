@@ -58,9 +58,24 @@ message SelectorList {
 }
 
 service Registrar {
-  rpc RegisterNode(RegisterNodeRequest) returns (RegisterResponse);
-  rpc RegisterWorkload(RegisterWorkloadRequest) returns (RegisterResponse);
-  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse);
+  rpc RegisterNode(RegisterNodeRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/registernode"
+      body: "*"
+    };
+  }
+  rpc RegisterWorkload(RegisterWorkloadRequest) returns (RegisterResponse) {
+    option (google.api.http) = {
+      post: "/v1/registerworkload"
+      body: "*"
+    };
+  }
+
+  rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
+    option (google.api.http) = {
+      get: "/v1/account"
+    };
+  }
 }
 
 

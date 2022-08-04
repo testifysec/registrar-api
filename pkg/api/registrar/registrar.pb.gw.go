@@ -99,15 +99,18 @@ func local_request_Registrar_RegisterWorkload_0(ctx context.Context, marshaler r
 
 }
 
+var (
+	filter_Registrar_GetAccount_0 = &utilities.DoubleArray{Encoding: map[string]int{}, Base: []int(nil), Check: []int(nil)}
+)
+
 func request_Registrar_GetAccount_0(ctx context.Context, marshaler runtime.Marshaler, client RegistrarClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetAccountRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Registrar_GetAccount_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -120,11 +123,10 @@ func local_request_Registrar_GetAccount_0(ctx context.Context, marshaler runtime
 	var protoReq GetAccountRequest
 	var metadata runtime.ServerMetadata
 
-	newReader, berr := utilities.IOReaderFactory(req.Body)
-	if berr != nil {
-		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", berr)
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := marshaler.NewDecoder(newReader()).Decode(&protoReq); err != nil && err != io.EOF {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Registrar_GetAccount_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
@@ -147,7 +149,7 @@ func RegisterRegistrarHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/RegisterNode", runtime.WithHTTPPathPattern("/registrar.Registrar/RegisterNode"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/RegisterNode", runtime.WithHTTPPathPattern("/v1/registernode"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -172,7 +174,7 @@ func RegisterRegistrarHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/RegisterWorkload", runtime.WithHTTPPathPattern("/registrar.Registrar/RegisterWorkload"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/RegisterWorkload", runtime.WithHTTPPathPattern("/v1/registerworkload"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -189,7 +191,7 @@ func RegisterRegistrarHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 
 	})
 
-	mux.Handle("POST", pattern_Registrar_GetAccount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Registrar_GetAccount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -197,7 +199,7 @@ func RegisterRegistrarHandlerServer(ctx context.Context, mux *runtime.ServeMux, 
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/GetAccount", runtime.WithHTTPPathPattern("/registrar.Registrar/GetAccount"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/registrar.Registrar/GetAccount", runtime.WithHTTPPathPattern("/v1/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -261,7 +263,7 @@ func RegisterRegistrarHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/RegisterNode", runtime.WithHTTPPathPattern("/registrar.Registrar/RegisterNode"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/RegisterNode", runtime.WithHTTPPathPattern("/v1/registernode"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -283,7 +285,7 @@ func RegisterRegistrarHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/RegisterWorkload", runtime.WithHTTPPathPattern("/registrar.Registrar/RegisterWorkload"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/RegisterWorkload", runtime.WithHTTPPathPattern("/v1/registerworkload"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -299,13 +301,13 @@ func RegisterRegistrarHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 
 	})
 
-	mux.Handle("POST", pattern_Registrar_GetAccount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_Registrar_GetAccount_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/GetAccount", runtime.WithHTTPPathPattern("/registrar.Registrar/GetAccount"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/registrar.Registrar/GetAccount", runtime.WithHTTPPathPattern("/v1/account"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
@@ -325,11 +327,11 @@ func RegisterRegistrarHandlerClient(ctx context.Context, mux *runtime.ServeMux, 
 }
 
 var (
-	pattern_Registrar_RegisterNode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"registrar.Registrar", "RegisterNode"}, ""))
+	pattern_Registrar_RegisterNode_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "registernode"}, ""))
 
-	pattern_Registrar_RegisterWorkload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"registrar.Registrar", "RegisterWorkload"}, ""))
+	pattern_Registrar_RegisterWorkload_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "registerworkload"}, ""))
 
-	pattern_Registrar_GetAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"registrar.Registrar", "GetAccount"}, ""))
+	pattern_Registrar_GetAccount_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"v1", "account"}, ""))
 )
 
 var (

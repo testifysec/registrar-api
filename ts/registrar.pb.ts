@@ -58,12 +58,12 @@ export type SelectorList = {
 
 export class Registrar {
   static RegisterNode(req: RegisterNodeRequest, initReq?: fm.InitReq): Promise<RegisterResponse> {
-    return fm.fetchReq<RegisterNodeRequest, RegisterResponse>(`/registrar.Registrar/RegisterNode`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<RegisterNodeRequest, RegisterResponse>(`/v1/registernode`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
   static RegisterWorkload(req: RegisterWorkloadRequest, initReq?: fm.InitReq): Promise<RegisterResponse> {
-    return fm.fetchReq<RegisterWorkloadRequest, RegisterResponse>(`/registrar.Registrar/RegisterWorkload`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<RegisterWorkloadRequest, RegisterResponse>(`/v1/registerworkload`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
   static GetAccount(req: GetAccountRequest, initReq?: fm.InitReq): Promise<GetAccountResponse> {
-    return fm.fetchReq<GetAccountRequest, GetAccountResponse>(`/registrar.Registrar/GetAccount`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+    return fm.fetchReq<GetAccountRequest, GetAccountResponse>(`/v1/account?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
 }
