@@ -16,8 +16,8 @@
     "application/json"
   ],
   "paths": {
-    "/v1/account": {
-      "get": {
+    "/v1/getaccount": {
+      "post": {
         "operationId": "Registrar_GetAccount",
         "responses": {
           "200": {
@@ -35,19 +35,36 @@
         },
         "parameters": [
           {
-            "name": "NodeType",
-            "in": "query",
-            "required": false,
-            "type": "string",
-            "enum": [
-              "TPM",
-              "GCP",
-              "AWS",
-              "AZURE"
-            ],
-            "default": "TPM"
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/registrarGetAccountRequest"
+            }
           }
         ],
+        "tags": [
+          "Registrar"
+        ]
+      }
+    },
+    "/v1/getnoderegistrations": {
+      "get": {
+        "operationId": "Registrar_GetNodeRegistrations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/registrarGetNodeRegistrationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
         "tags": [
           "Registrar"
         ]
@@ -128,6 +145,17 @@
       },
       "additionalProperties": {}
     },
+    "registrarGetAccountRequest": {
+      "type": "object",
+      "properties": {
+        "Selectors": {
+          "$ref": "#/definitions/registrarSelectorList"
+        },
+        "NodeType": {
+          "$ref": "#/definitions/registrarNodeType"
+        }
+      }
+    },
     "registrarGetAccountResponse": {
       "type": "object",
       "properties": {
@@ -139,13 +167,52 @@
         }
       }
     },
+    "registrarGetNodeRegistrationsResponse": {
+      "type": "object",
+      "properties": {
+        "NodeRegistrations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/registrarNodeRegistration"
+          }
+        }
+      }
+    },
+    "registrarNodeRegistration": {
+      "type": "object",
+      "properties": {
+        "NodeId": {
+          "type": "string"
+        },
+        "NodeType": {
+          "$ref": "#/definitions/registrarNodeType"
+        },
+        "Selectors": {
+          "$ref": "#/definitions/registrarSelectorList"
+        },
+        "NodeGroup": {
+          "type": "string"
+        },
+        "RegisteredBy": {
+          "type": "string"
+        },
+        "AccountUUID": {
+          "type": "string"
+        },
+        "RegisteredAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "registrarNodeType": {
       "type": "string",
       "enum": [
         "TPM",
         "GCP",
         "AWS",
-        "AZURE"
+        "AZURE",
+        "GITHUB"
       ],
       "default": "TPM"
     },

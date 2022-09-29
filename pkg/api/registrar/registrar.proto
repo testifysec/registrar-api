@@ -5,12 +5,15 @@ package registrar;
 option go_package = "github.com/testifysec/registrar-api/pkg/api/registrar";
 
 import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 enum NodeType {
   TPM = 0;
   GCP = 1;
   AWS = 2;
   AZURE = 3;
+  GITHUB = 4;
 }
 
 enum WorkloadType {
@@ -25,6 +28,21 @@ message RegisterNodeRequest {
   string NodeGroup = 4;
 }
 
+message GetNodeRegistrationsResponse {
+  repeated NodeRegistration NodeRegistrations = 1;
+}
+
+message NodeRegistration {
+  string NodeId = 1;
+  NodeType NodeType = 2;
+  SelectorList Selectors = 3;
+  string NodeGroup = 4;
+  string RegisteredBy = 5;
+  string AccountUUID = 6;
+  google.protobuf.Timestamp RegisteredAt = 7;
+
+}
+
 message RegisterWorkloadRequest {
     string JWT = 1;
     WorkloadType WorkloadType = 2;
@@ -36,7 +54,6 @@ message RegisterWorkloadRequest {
 message RegisterResponse {
   string spiffeID = 1;
 }
-
 
 message GetAccountRequest {
   SelectorList Selectors = 1;
@@ -57,6 +74,7 @@ message SelectorList {
     repeated Selector Selectors = 1;
 }
 
+
 service Registrar {
   rpc RegisterNode(RegisterNodeRequest) returns (RegisterResponse) {
     option (google.api.http) = {
@@ -73,10 +91,15 @@ service Registrar {
 
   rpc GetAccount(GetAccountRequest) returns (GetAccountResponse) {
     option (google.api.http) = {
-      get: "/v1/account"
+      post: "/v1/getaccount"
+      body: "*"
+    };
+  }
+
+  rpc GetNodeRegistrations(google.protobuf.Empty) returns (GetNodeRegistrationsResponse) {
+    option (google.api.http) = {
+      get: "/v1/getnoderegistrations"
     };
   }
 }
-
-
 
