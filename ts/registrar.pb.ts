@@ -4,6 +4,8 @@
 * This file is a generated Typescript file for GRPC Gateway, DO NOT MODIFY
 */
 
+import * as GoogleProtobufEmpty from "./google/protobuf/empty.pb"
+import * as GoogleProtobufTimestamp from "./google/protobuf/timestamp.pb"
 import * as fm from "base/fetch.pb"
 
 export enum NodeType {
@@ -11,6 +13,7 @@ export enum NodeType {
   GCP = "GCP",
   AWS = "AWS",
   AZURE = "AZURE",
+  GITHUB = "GITHUB",
 }
 
 export enum WorkloadType {
@@ -23,6 +26,20 @@ export type RegisterNodeRequest = {
   nodeType?: NodeType
   selectors?: SelectorList
   nodeGroup?: string
+}
+
+export type GetNodeRegistrationsResponse = {
+  nodeRegistrations?: NodeRegistration[]
+}
+
+export type NodeRegistration = {
+  nodeId?: string
+  nodeType?: NodeType
+  selectors?: SelectorList
+  nodeGroup?: string
+  registeredBy?: string
+  accountUUID?: string
+  registeredAt?: GoogleProtobufTimestamp.Timestamp
 }
 
 export type RegisterWorkloadRequest = {
@@ -64,6 +81,9 @@ export class Registrar {
     return fm.fetchReq<RegisterWorkloadRequest, RegisterResponse>(`/v1/registerworkload`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
   static GetAccount(req: GetAccountRequest, initReq?: fm.InitReq): Promise<GetAccountResponse> {
-    return fm.fetchReq<GetAccountRequest, GetAccountResponse>(`/v1/account?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
+    return fm.fetchReq<GetAccountRequest, GetAccountResponse>(`/v1/getaccount`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
+  }
+  static GetNodeRegistrations(req: GoogleProtobufEmpty.Empty, initReq?: fm.InitReq): Promise<GetNodeRegistrationsResponse> {
+    return fm.fetchReq<GoogleProtobufEmpty.Empty, GetNodeRegistrationsResponse>(`/v1/getnoderegistrations?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
   }
 }

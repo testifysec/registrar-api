@@ -1,11 +1,11 @@
 package registrar
 
-import (
-	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
-	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
-	_ "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
-	_ "google.golang.org/protobuf/cmd/protoc-gen-go"
-)
+// import (
+// 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
+// 	_ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
+// 	_ "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
+// 	_ "google.golang.org/protobuf/cmd/protoc-gen-go"
+// )
 
 //$ PB_REL="https://github.com/protocolbuffers/protobuf/releases"
 //$ curl -LO $PB_REL/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
