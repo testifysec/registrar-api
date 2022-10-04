@@ -22,10 +22,13 @@ enum WorkloadType {
 }
 
 message RegisterNodeRequest {
-  string JWT = 1;
-  NodeType NodeType = 2;
-  SelectorList Selectors = 3;
-  string NodeGroup = 4;
+  NodeType NodeType = 1;
+  SelectorList Selectors = 2;
+  string NodeGroup = 3;
+}
+
+message DecativateNodeRequest {
+  string NodeId = 1;
 }
 
 message GetNodeRegistrationsResponse {
@@ -44,11 +47,10 @@ message NodeRegistration {
 }
 
 message RegisterWorkloadRequest {
-    string JWT = 1;
-    WorkloadType WorkloadType = 2;
-    SelectorList Selectors = 3;
-    string NodeGroup = 4;
-    string WorkloadName = 5;
+    WorkloadType WorkloadType = 1;
+    SelectorList Selectors = 2;
+    string NodeGroup = 3;
+    string WorkloadName = 4;
 }
 
 message RegisterResponse {
@@ -99,6 +101,13 @@ service Registrar {
   rpc GetNodeRegistrations(google.protobuf.Empty) returns (GetNodeRegistrationsResponse) {
     option (google.api.http) = {
       get: "/v1/getnoderegistrations"
+    };
+  }
+
+  rpc DeactivateNode(DecativateNodeRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      post: "/v1/deactivatenode"
+      body: "*"
     };
   }
 }

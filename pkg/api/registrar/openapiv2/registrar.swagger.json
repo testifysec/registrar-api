@@ -16,6 +16,39 @@
     "application/json"
   ],
   "paths": {
+    "/v1/deactivatenode": {
+      "post": {
+        "operationId": "Registrar_DeactivateNode",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "type": "object",
+              "properties": {}
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/registrarDecativateNodeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "Registrar"
+        ]
+      }
+    },
     "/v1/getaccount": {
       "post": {
         "operationId": "Registrar_GetAccount",
@@ -145,6 +178,14 @@
       },
       "additionalProperties": {}
     },
+    "registrarDecativateNodeRequest": {
+      "type": "object",
+      "properties": {
+        "NodeId": {
+          "type": "string"
+        }
+      }
+    },
     "registrarGetAccountRequest": {
       "type": "object",
       "properties": {
@@ -219,9 +260,6 @@
     "registrarRegisterNodeRequest": {
       "type": "object",
       "properties": {
-        "JWT": {
-          "type": "string"
-        },
         "NodeType": {
           "$ref": "#/definitions/registrarNodeType"
         },
@@ -244,9 +282,6 @@
     "registrarRegisterWorkloadRequest": {
       "type": "object",
       "properties": {
-        "JWT": {
-          "type": "string"
-        },
         "WorkloadType": {
           "$ref": "#/definitions/registrarWorkloadType"
         },

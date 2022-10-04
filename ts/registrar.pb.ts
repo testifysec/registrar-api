@@ -22,10 +22,13 @@ export enum WorkloadType {
 }
 
 export type RegisterNodeRequest = {
-  jWT?: string
   nodeType?: NodeType
   selectors?: SelectorList
   nodeGroup?: string
+}
+
+export type DecativateNodeRequest = {
+  nodeId?: string
 }
 
 export type GetNodeRegistrationsResponse = {
@@ -43,7 +46,6 @@ export type NodeRegistration = {
 }
 
 export type RegisterWorkloadRequest = {
-  jWT?: string
   workloadType?: WorkloadType
   selectors?: SelectorList
   nodeGroup?: string
@@ -85,5 +87,8 @@ export class Registrar {
   }
   static GetNodeRegistrations(req: GoogleProtobufEmpty.Empty, initReq?: fm.InitReq): Promise<GetNodeRegistrationsResponse> {
     return fm.fetchReq<GoogleProtobufEmpty.Empty, GetNodeRegistrationsResponse>(`/v1/getnoderegistrations?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"})
+  }
+  static DeactivateNode(req: DecativateNodeRequest, initReq?: fm.InitReq): Promise<GoogleProtobufEmpty.Empty> {
+    return fm.fetchReq<DecativateNodeRequest, GoogleProtobufEmpty.Empty>(`/v1/deactivatenode`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)})
   }
 }

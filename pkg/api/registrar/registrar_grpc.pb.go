@@ -27,6 +27,7 @@ type RegistrarClient interface {
 	RegisterWorkload(ctx context.Context, in *RegisterWorkloadRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	GetAccount(ctx context.Context, in *GetAccountRequest, opts ...grpc.CallOption) (*GetAccountResponse, error)
 	GetNodeRegistrations(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetNodeRegistrationsResponse, error)
+	DeactivateNode(ctx context.Context, in *DecativateNodeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 }
 
 type registrarClient struct {
@@ -73,6 +74,15 @@ func (c *registrarClient) GetNodeRegistrations(ctx context.Context, in *emptypb.
 	return out, nil
 }
 
+func (c *registrarClient) DeactivateNode(ctx context.Context, in *DecativateNodeRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/registrar.Registrar/DeactivateNode", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RegistrarServer is the server API for Registrar service.
 // All implementations must embed UnimplementedRegistrarServer
 // for forward compatibility
@@ -81,6 +91,7 @@ type RegistrarServer interface {
 	RegisterWorkload(context.Context, *RegisterWorkloadRequest) (*RegisterResponse, error)
 	GetAccount(context.Context, *GetAccountRequest) (*GetAccountResponse, error)
 	GetNodeRegistrations(context.Context, *emptypb.Empty) (*GetNodeRegistrationsResponse, error)
+	DeactivateNode(context.Context, *DecativateNodeRequest) (*emptypb.Empty, error)
 	mustEmbedUnimplementedRegistrarServer()
 }
 
@@ -99,6 +110,9 @@ func (UnimplementedRegistrarServer) GetAccount(context.Context, *GetAccountReque
 }
 func (UnimplementedRegistrarServer) GetNodeRegistrations(context.Context, *emptypb.Empty) (*GetNodeRegistrationsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNodeRegistrations not implemented")
+}
+func (UnimplementedRegistrarServer) DeactivateNode(context.Context, *DecativateNodeRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeactivateNode not implemented")
 }
 func (UnimplementedRegistrarServer) mustEmbedUnimplementedRegistrarServer() {}
 
@@ -185,6 +199,24 @@ func _Registrar_GetNodeRegistrations_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Registrar_DeactivateNode_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DecativateNodeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegistrarServer).DeactivateNode(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/registrar.Registrar/DeactivateNode",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegistrarServer).DeactivateNode(ctx, req.(*DecativateNodeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Registrar_ServiceDesc is the grpc.ServiceDesc for Registrar service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -207,6 +239,10 @@ var Registrar_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetNodeRegistrations",
 			Handler:    _Registrar_GetNodeRegistrations_Handler,
+		},
+		{
+			MethodName: "DeactivateNode",
+			Handler:    _Registrar_DeactivateNode_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
