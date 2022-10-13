@@ -181,7 +181,7 @@
     "registrarDecativateNodeRequest": {
       "type": "object",
       "properties": {
-        "NodeId": {
+        "nodeId": {
           "type": "string"
         }
       }
@@ -189,10 +189,10 @@
     "registrarGetAccountRequest": {
       "type": "object",
       "properties": {
-        "Selectors": {
+        "selectors": {
           "$ref": "#/definitions/registrarSelectorList"
         },
-        "NodeType": {
+        "nodeType": {
           "$ref": "#/definitions/registrarNodeType"
         }
       }
@@ -200,10 +200,10 @@
     "registrarGetAccountResponse": {
       "type": "object",
       "properties": {
-        "Account": {
+        "account": {
           "type": "string"
         },
-        "NodeGroup": {
+        "nodeGroup": {
           "type": "string"
         }
       }
@@ -211,7 +211,7 @@
     "registrarGetNodeRegistrationsResponse": {
       "type": "object",
       "properties": {
-        "NodeRegistrations": {
+        "nodeRegistrations": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/registrarNodeRegistration"
@@ -222,25 +222,25 @@
     "registrarNodeRegistration": {
       "type": "object",
       "properties": {
-        "NodeId": {
+        "nodeId": {
           "type": "string"
         },
-        "NodeType": {
+        "nodeType": {
           "$ref": "#/definitions/registrarNodeType"
         },
-        "Selectors": {
+        "selectors": {
           "$ref": "#/definitions/registrarSelectorList"
         },
-        "NodeGroup": {
+        "nodeGroup": {
           "type": "string"
         },
-        "RegisteredBy": {
+        "registeredBy": {
           "type": "string"
         },
-        "AccountUUID": {
+        "accountUUID": {
           "type": "string"
         },
-        "RegisteredAt": {
+        "registeredAt": {
           "type": "string",
           "format": "date-time"
         }
@@ -260,13 +260,13 @@
     "registrarRegisterNodeRequest": {
       "type": "object",
       "properties": {
-        "NodeType": {
+        "nodeType": {
           "$ref": "#/definitions/registrarNodeType"
         },
-        "Selectors": {
+        "selectors": {
           "$ref": "#/definitions/registrarSelectorList"
         },
-        "NodeGroup": {
+        "nodeGroup": {
           "type": "string"
         }
       }
@@ -282,16 +282,16 @@
     "registrarRegisterWorkloadRequest": {
       "type": "object",
       "properties": {
-        "WorkloadType": {
+        "workloadType": {
           "$ref": "#/definitions/registrarWorkloadType"
         },
-        "Selectors": {
+        "selectors": {
           "$ref": "#/definitions/registrarSelectorList"
         },
-        "NodeGroup": {
+        "nodeGroup": {
           "type": "string"
         },
-        "WorkloadName": {
+        "workloadName": {
           "type": "string"
         }
       }
@@ -310,7 +310,7 @@
     "registrarSelectorList": {
       "type": "object",
       "properties": {
-        "Selectors": {
+        "selectors": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/registrarSelector"
