@@ -22,35 +22,35 @@ enum WorkloadType {
 }
 
 message RegisterNodeRequest {
-  NodeType NodeType = 1;
-  SelectorList Selectors = 2;
-  string NodeGroup = 3;
+  NodeType nodeType = 1;
+  SelectorList selectors = 2;
+  string nodeGroup = 3;
 }
 
 message DecativateNodeRequest {
-  string NodeId = 1;
+  string nodeId = 1;
 }
 
 message GetNodeRegistrationsResponse {
-  repeated NodeRegistration NodeRegistrations = 1;
+  repeated NodeRegistration nodeRegistrations = 1;
 }
 
 message NodeRegistration {
-  string NodeId = 1;
-  NodeType NodeType = 2;
-  SelectorList Selectors = 3;
-  string NodeGroup = 4;
-  string RegisteredBy = 5;
-  string AccountUUID = 6;
-  google.protobuf.Timestamp RegisteredAt = 7;
+  string nodeId = 1;
+  NodeType nodeType = 2;
+  SelectorList selectors = 3;
+  string nodeGroup = 4;
+  string registeredBy = 5;
+  string accountUUID = 6;
+  google.protobuf.Timestamp registeredAt = 7;
 
 }
 
 message RegisterWorkloadRequest {
-    WorkloadType WorkloadType = 1;
-    SelectorList Selectors = 2;
-    string NodeGroup = 3;
-    string WorkloadName = 4;
+    WorkloadType workloadType = 1;
+    SelectorList selectors = 2;
+    string nodeGroup = 3;
+    string workloadName = 4;
 }
 
 message RegisterResponse {
@@ -58,13 +58,13 @@ message RegisterResponse {
 }
 
 message GetAccountRequest {
-  SelectorList Selectors = 1;
-  NodeType NodeType = 2;
+  SelectorList selectors = 1;
+  NodeType nodeType = 2;
 }
 
 message GetAccountResponse {
-  string Account = 1;
-  string NodeGroup = 2;
+  string account = 1;
+  string nodeGroup = 2;
 }
 
 message Selector {
@@ -73,7 +73,7 @@ message Selector {
 }
 
 message SelectorList {
-    repeated Selector Selectors = 1;
+    repeated Selector selectors = 1;
 }
 
 
